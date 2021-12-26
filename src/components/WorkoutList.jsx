@@ -63,7 +63,7 @@ export default function WorkoutList() {
               {workout.exercises.map((exercise) => (
                 <>
                   {exercise.sets.map((set, i) => (
-                    <tr>
+                    <tr key={set.id}>
                       <td>{exercise.exercise_name}</td>
                       <td>{i + 1}</td>
                       <td>{set.reps}</td>

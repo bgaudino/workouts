@@ -33,7 +33,7 @@ export default function Workout() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
