@@ -5,7 +5,6 @@ import axios from "axios";
 import {
   exerciseCreateUrl,
   exerciseDeleteUrl,
-  exerciseUrl,
   workoutUrl,
 } from "../utils/endPoints";
 import { useParams } from "react-router-dom";
