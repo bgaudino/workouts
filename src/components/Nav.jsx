@@ -31,7 +31,7 @@ export default function Nav() {
               New Workout
             </button>
           </div>
-          <a
+          {/* <div
             role="button"
             className="navbar-burger"
             aria-label="menu"
@@ -40,7 +40,7 @@ export default function Nav() {
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-          </a>
+          </div> */}
         </div>
       </div>
     </nav>
