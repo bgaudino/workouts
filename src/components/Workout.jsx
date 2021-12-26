@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { formatDate } from "../utils/formatDateTime";
 import Exercise from "./Exercise";
 import axios from "axios";
-import { exerciseDeleteUrl, exerciseUrl, workoutUrl } from "../utils/endPoints";
+import {
+  exerciseCreateUrl,
+  exerciseDeleteUrl,
+  exerciseUrl,
+  workoutUrl,
+} from "../utils/endPoints";
 import { useParams } from "react-router-dom";
 
 export default function Workout() {
@@ -11,6 +16,7 @@ export default function Workout() {
   const [workout, setWorkout] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [exerciseName, setExerciseName] = useState("");
+  const [error, setError] = useState("");
   const date = formatDate(workout.start_date);
 
   useEffect(() => {
@@ -18,20 +24,23 @@ export default function Workout() {
       .get(workoutUrl(id))
       .then((res) => {
         setWorkout(() => res.data);
-        setLoading(() => false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setError("Workout not found");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/create_or_update/`,
-      {
-        workout_id: workout.id,
-        exercise_name: exerciseName,
-      }
-    );
+    const res = await axios.post(exerciseCreateUrl, {
+      workout_id: workout.id,
+      exercise_name: exerciseName,
+    });
     setWorkout(() => ({
       ...workout,
       exercises: [...workout.exercises, res.data],
@@ -50,6 +59,7 @@ export default function Workout() {
   }
 
   if (loading) return null;
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
@@ -57,6 +67,7 @@ export default function Workout() {
       {showForm ? (
         <form onSubmit={handleSubmit}>
           <input
+            autoFocus
             value={exerciseName}
             onChange={(e) => setExerciseName(e.target.value)}
             type="text"
@@ -69,8 +80,8 @@ export default function Workout() {
       ) : (
         <button onClick={() => setShowForm(true)}>Add New Exercise</button>
       )}
-      {!workout.exercises.length && <p>No exercises</p>}
-      {workout.exercises.map((exercise) => (
+      {!workout.exercises?.length && <p>No exercises</p>}
+      {workout.exercises?.map((exercise) => (
         <Exercise
           key={exercise.id}
           exercise={exercise}
