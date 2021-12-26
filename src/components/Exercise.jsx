@@ -1,9 +1,22 @@
 import { useState } from "react";
-import { setCreateUrl, setDeleteUrl } from "../utils/endPoints";
+import {
+  setCreateUrl,
+  setDeleteUrl,
+  exerciseUpdateUrl,
+} from "../utils/endPoints";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faCheck,
+  faWindowClose,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Exercise({ exercise, handleDelete }) {
   const [myExercise, setMyExercise] = useState(exercise);
+  const [exerciseName, setExerciseName] = useState(exercise.exercise_name);
+  const [nameEditable, setNameEditable] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
@@ -31,38 +44,158 @@ export default function Exercise({ exercise, handleDelete }) {
       });
   }
 
+  async function updateName() {
+    const res = await axios.put(exerciseUpdateUrl, {
+      exercise_id: exercise.id,
+      exercise_name: exerciseName,
+    });
+    setMyExercise({
+      ...myExercise,
+      exercise_name: res.data.exercise_name,
+    });
+    setNameEditable(false);
+  }
+
   return (
-    <div>
-      <h3>{exercise.exercise_name}</h3>
-      <button onClick={() => handleDelete(exercise.id)}>Delete Exercise</button>
-      {myExercise.sets.map((set, i) => (
-        <div key={set.id}>
-          <p>
-            Set {i + 1}: {set.weight}lbs x {set.reps}
-            <button onClick={() => deleteSet(set.id)}>X</button>
-          </p>
+    <div className="card m-5">
+      <div className="card-header">
+        <div className="card-header-title">
+          {nameEditable ? (
+            <form
+              style={{ width: "100%" }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                updateName();
+              }}
+            >
+              <div className="field">
+                <div className="control is-expanded">
+                  <input
+                    autoFocus
+                    className="input is-fullwidth"
+                    placeholder="Exercise Name"
+                    value={exerciseName}
+                    onChange={(e) => setExerciseName(e.target.value)}
+                  />
+                </div>
+              </div>
+            </form>
+          ) : (
+            myExercise.exercise_name
+          )}
         </div>
-      ))}
-      {showForm && (
-        <form onSubmit={handleSubmit}>
-          <input
-            autoFocus
-            min="0"
-            type="number"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-          />
-          <input
-            min="0"
-            type="number"
-            value={reps}
-            onChange={(e) => setReps(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
-        </form>
-      )}
-      <button onClick={() => setShowForm(true)}>Add New Set</button>
+        <a className="card-header-icon">
+          {!nameEditable ? (
+            <span className="has-text-info">
+              <FontAwesomeIcon
+                icon={faEdit}
+                onClick={() => setNameEditable(true)}
+              />
+            </span>
+          ) : (
+            <>
+              <span className="has-text-danger">
+                <FontAwesomeIcon
+                  icon={faWindowClose}
+                  onClick={() => {
+                    setExerciseName(myExercise.exercise_name);
+                    setNameEditable(false);
+                  }}
+                />
+              </span>
+              <span className="has-text-success">
+                <FontAwesomeIcon
+                  className="ml-3"
+                  icon={faCheck}
+                  onClick={updateName}
+                />
+              </span>
+            </>
+          )}
+        </a>
+      </div>
+      <div className="card-content">
+        {!myExercise.sets?.length && !showForm && (
+          <p>Add a set to get started.</p>
+        )}
+        {myExercise.sets.map((set, i) => (
+          <div key={set.id}>
+            Set {i + 1}: {set.weight}lbs x {set.reps}
+            <span
+              class="icon has-text-danger"
+              style={{ float: "right", cursor: "pointer" }}
+            >
+              <FontAwesomeIcon
+                icon={faTrash}
+                onClick={() => deleteSet(set.id)}
+              />
+            </span>
+          </div>
+        ))}
+        {showForm && (
+          <form className="mt-3" onSubmit={handleSubmit}>
+            <div className="field has-addons">
+              <div className="control">
+                <input
+                  className="input is-rounded"
+                  min="0"
+                  autoFocus
+                  placeholder="Weight"
+                  type="number"
+                  value={weight || ""}
+                  onChange={(e) => setWeight(e.target.value)}
+                />
+              </div>
+              <div className="control">
+                <input
+                  className="input"
+                  min="0"
+                  placeholder="Reps"
+                  type="number"
+                  value={reps || ""}
+                  onChange={(e) => setReps(e.target.value)}
+                />
+              </div>
+              <div className="control">
+                <button
+                  disabled={!weight || !reps}
+                  className="button is-success"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+              <div className="control">
+                <button
+                  className="button is-danger is-rounded"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+      <div className="card-footer">
+        <div className="card-footer-item">
+          <button
+            className="button is-info is-inverted"
+            disabled={showForm}
+            onClick={() => setShowForm(true)}
+          >
+            Add New Set
+          </button>
+        </div>
+        <div className="card-footer-item">
+          <button
+            className="button is-danger is-inverted"
+            onClick={() => handleDelete(exercise.id)}
+          >
+            Delete Exercise
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

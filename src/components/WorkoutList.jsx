@@ -24,16 +24,58 @@ export default function WorkoutList() {
   }
 
   return (
-    <>
-      <button onClick={startWorkout}>Start New Workout</button>
+    <div className="m-3">
+      <h2 className="title is-2 has-text-centered">Workout History</h2>
+      {!workouts.length && (
+        <p className="has-text-centered">No workout yet. Click "New Workout" to get started.</p>
+      )}
       {workouts.map((workout) => (
-        <div key={workout.id}>
-          <Link to={`/workout/${workout.id}`}>
-            {formatDate(workout.start_date)}
-          </Link>
-          <button onClick={() => deleteWorkout(workout.id)}>Delete</button>
+        <div key={workout.id} className="box m-5">
+          <div className="mb-3">
+            <span style={{ fontSize: "x-large" }}>
+              {formatDate(workout.start_date)}
+            </span>
+            <div style={{ float: "right" }}>
+              <button
+                className="button is-info"
+                onClick={() => navigate(`/workout/${workout.id}`)}
+              >
+                Edit
+              </button>
+              <button
+                className="button is-danger ml-2"
+                onClick={() => deleteWorkout(workout.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <table className="table is-bordered is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Exercise</th>
+                <th>Set</th>
+                <th>Reps</th>
+                <th>Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              {workout.exercises.map((exercise) => (
+                <>
+                  {exercise.sets.map((set, i) => (
+                    <tr>
+                      <td>{exercise.exercise_name}</td>
+                      <td>{i + 1}</td>
+                      <td>{set.reps}</td>
+                      <td>{set.weight}</td>
+                    </tr>
+                  ))}
+                </>
+              ))}
+            </tbody>
+          </table>
         </div>
       ))}
-    </>
+    </div>
   );
 }

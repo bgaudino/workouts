@@ -1,19 +1,20 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import "bulma/css/bulma.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WorkoutList from "./components/WorkoutList";
 import Workout from "./components/Workout";
+import Nav from "./components/Nav";
 
 function App() {
   return (
-    <div className="container">
+    <div>
       <BrowserRouter>
-        <Link to="/">
-          <h1>Workout Tracker</h1>
-        </Link>
-        <Routes>
-          <Route path="/" element={<WorkoutList />}></Route>
-          <Route path="/workout/:id" element={<Workout />} />
-        </Routes>
+        <Nav />
+        <div className="container is-max-desktop">
+          <Routes>
+            <Route path="/" element={<WorkoutList />}></Route>
+            <Route path="/workout/:id" element={<Workout />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </div>
   );

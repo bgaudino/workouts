@@ -63,24 +63,54 @@ export default function Workout() {
 
   return (
     <div>
-      <h2>{date}</h2>
-      {showForm ? (
-        <form onSubmit={handleSubmit}>
-          <input
-            autoFocus
-            value={exerciseName}
-            onChange={(e) => setExerciseName(e.target.value)}
-            type="text"
-            name="exercise"
-            placeholder="Exercise name"
-          />
-          <button type="submit">Submit</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
-        </form>
-      ) : (
-        <button onClick={() => setShowForm(true)}>Add New Exercise</button>
-      )}
-      {!workout.exercises?.length && <p>No exercises</p>}
+      <h2 className="title is-2 has-text-centered mt-3">{date}</h2>
+      <div className="container is-fluid has-text-centered">
+        {showForm ? (
+          <form onSubmit={handleSubmit}>
+            <div className="field has-addons">
+              <div className="control is-expanded">
+                <input
+                  autoFocus
+                  className="input is-fullwidth"
+                  value={exerciseName}
+                  onChange={(e) => setExerciseName(e.target.value)}
+                  type="text"
+                  name="exercise"
+                  placeholder="Exercise name"
+                />
+              </div>
+              <div className="control">
+                <button
+                  disabled={!exerciseName}
+                  className="button is-primary"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+              <div className="control">
+                <button
+                  className="button is-danger"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <button
+            style={{ margin: "auto" }}
+            className="button is-primary"
+            onClick={() => setShowForm(true)}
+          >
+            Add New Exercise
+          </button>
+        )}
+        {!workout.exercises?.length && !showForm && (
+          <p className="mt-5">Add an exercise to get started</p>
+        )}
+      </div>
       {workout.exercises?.map((exercise) => (
         <Exercise
           key={exercise.id}
