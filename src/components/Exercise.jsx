@@ -84,7 +84,7 @@ export default function Exercise({ exercise, handleDelete }) {
             myExercise.exercise_name
           )}
         </div>
-        <a className="card-header-icon">
+        <div className="card-header-icon">
           {!nameEditable ? (
             <span className="has-text-info">
               <FontAwesomeIcon
@@ -112,7 +112,7 @@ export default function Exercise({ exercise, handleDelete }) {
               </span>
             </>
           )}
-        </a>
+        </div>
       </div>
       <div className="card-content">
         {!myExercise.sets?.length && !showForm && (
