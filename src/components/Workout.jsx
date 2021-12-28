@@ -8,6 +8,8 @@ import {
   workoutUrl,
 } from "../utils/endPoints";
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
 export default function Workout() {
   const { id } = useParams();
@@ -81,10 +83,10 @@ export default function Workout() {
               <div className="control">
                 <button
                   disabled={!exerciseName}
-                  className="button is-primary"
+                  className="button is-success"
                   type="submit"
                 >
-                  Submit
+                  <FontAwesomeIcon icon={faCheck} />
                 </button>
               </div>
               <div className="control">
@@ -92,7 +94,7 @@ export default function Workout() {
                   className="button is-danger"
                   onClick={() => setShowForm(false)}
                 >
-                  Cancel
+                  <FontAwesomeIcon icon={faWindowClose} />
                 </button>
               </div>
             </div>

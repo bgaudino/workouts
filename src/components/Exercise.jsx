@@ -162,7 +162,7 @@ export default function Exercise({ exercise, handleDelete }) {
                   className="button is-success"
                   type="submit"
                 >
-                  Submit
+                  <FontAwesomeIcon icon={faCheck} />
                 </button>
               </div>
               <div className="control">
@@ -170,7 +170,7 @@ export default function Exercise({ exercise, handleDelete }) {
                   className="button is-danger is-rounded"
                   onClick={() => setShowForm(false)}
                 >
-                  Cancel
+                  <FontAwesomeIcon icon={faWindowClose} />
                 </button>
               </div>
             </div>

@@ -19,11 +19,8 @@ export default function Nav() {
       <div className="container">
         <div className="navbar-brand">
           <div className="navbar-item">
-            <div style={{ fontSize: "x-large" }}>Workout Tracker</div>
-          </div>
-          <div className="navbar-item">
             <Link to="/">
-              <button className="button is-dark">History</button>
+              <button className="button is-dark"> Workout Tracker</button>
             </Link>
           </div>
           <div className="navbar-item">
