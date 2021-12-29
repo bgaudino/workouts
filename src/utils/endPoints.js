@@ -8,3 +8,5 @@ export const exerciseUrl = (id) => `${baseUrl}/${id}/`;
 export const exerciseDeleteUrl = (id) => `${baseUrl}/delete/${id}/`;
 export const setCreateUrl = `${baseUrl}/set/create_or_update/`;
 export const setDeleteUrl = (id) => `${baseUrl}/set/delete/${id}/`;
+export const stravaAuthUrl = `${baseUrl}/strava-auth/`;
+export const cardioListUrl = `${baseUrl}/cardio/`;
