@@ -1,6 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { cardioListUrl } from "../utils/endPoints";
+import {
+  formatDistance,
+  formatDuration,
+  getAveragePace,
+} from "../utils/formatCardio";
 
 export default function CardioList() {
   const [workouts, setWorkouts] = useState([]);
@@ -24,12 +29,39 @@ export default function CardioList() {
             <p className="card-header-title">{workout.name}</p>
           </div>
           <div className="card-content">
-            <p>{workout.distance}</p>
-            <p>{workout.moving_time}</p>
-            <p>{workout.average_speed}</p>
-            <p>{workout.average_heartrate}</p>
-            <p>{workout.max_heartrate}</p>
-            <p>{workout.max_speed}</p>
+            <p>
+              <strong>Distance: </strong>
+              {formatDistance(workout.distance)} miles
+            </p>
+            <p>
+              <strong>Duration: </strong>
+              {formatDuration(workout.moving_time)} minutes
+            </p>
+            <p>
+              <strong>Average Pace: </strong>
+              {getAveragePace(workout.distance, workout.moving_time)} minutes
+              per mile
+            </p>
+            <p>
+              <strong>Avg Speed: </strong>
+              {workout.average_speed} mph
+            </p>
+            <p>
+              <strong>Max Speed: </strong>
+              {workout.max_speed} mph
+            </p>
+            {workout.has_heartrate && (
+              <>
+                <p>
+                  <strong>Avg Heartrate: </strong>
+                  {workout.average_heartrate} bpm
+                </p>
+                <p>
+                  <strong>Max Heartrate: </strong>
+                  {workout.max_heartrate} bpm
+                </p>
+              </>
+            )}
           </div>
         </div>
       ))}
