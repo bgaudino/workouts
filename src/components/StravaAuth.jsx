@@ -10,18 +10,13 @@ export default function StravaAuth() {
     const code = new URLSearchParams(window.location.search).get("code");
     window.history.replaceState(null, "", window.location.href.split("?")[0]);
     if (code) {
-      codeForToken(code);
+      axios.post(stravaAuthUrl, { code }).then((res) => {
+        if (res.status === 200) navigate("/cardio");
+      });
     } else {
       navigate("/");
     }
-  }, []);
-
-  async function codeForToken(code) {
-    const res = await axios.post(stravaAuthUrl, {
-      code: code,
-    });
-    if (res.status === 200) navigate("/cardio");
-  }
+  }, [navigate]);
 
   return (
     <div className="container p-5">
