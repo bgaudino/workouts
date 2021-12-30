@@ -9,11 +9,30 @@ import {
 
 export default function CardioList() {
   const [workouts, setWorkouts] = useState([]);
+  const [accounts, setAccounts] = useState([]);
+
+  function authorizeStrava() {
+    const url = new URL("https://www.strava.com/oauth/authorize");
+    const params = {
+      client_id: process.env.REACT_APP_STRAVA_CLIENT_ID,
+      response_type: "code",
+      redirect_uri: `${window.location.origin}/strava-auth`,
+      approval_prompt: "force",
+      scope:
+        "read,read_all,profile:read_all,profile:write,activity:read,activity:read_all,activity:write",
+    };
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.append(key, value);
+    }
+    window.location.assign(url);
+  }
+
   useEffect(() => {
     axios
       .get(cardioListUrl)
       .then((res) => {
-        setWorkouts(res.data);
+        setWorkouts(res.data.cardio_sessions);
+        setAccounts(res.data.strava_accounts);
       })
       .catch((err) => {
         console.log(err);
@@ -23,6 +42,37 @@ export default function CardioList() {
   return (
     <div className="container">
       <h2 className="title is-2 has-text-centered">Cardio List</h2>
+      <div className="ml-5">
+        <h3 className="title is-4">Strava Accounts</h3>
+        {!accounts.length && <p>No accounts found</p>}
+      </div>
+
+      {accounts.map((account) => (
+        <div className="card m-5">
+          <div className="card-content">
+            <div className="media">
+              <div className="media-left">
+                <figure className="image is-48x48">
+                  <img src={account.avatar} alt="Avatar" />
+                </figure>
+              </div>
+              <div className="media-content">
+                <p className="title is-4">
+                  {account.first_name} {account.last_name}
+                </p>
+                <p className="subtitle is-6">@{account.username}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div className="has-text-centered">
+        <button class="button is-primary" onClick={authorizeStrava}>
+          Add Strava Account
+        </button>
+      </div>
+
       {workouts.map((workout) => (
         <div className="card m-5" key={workout.id}>
           <div className="card-header">
