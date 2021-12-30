@@ -17,7 +17,7 @@ export default function CardioList() {
     const params = {
       client_id: process.env.REACT_APP_STRAVA_CLIENT_ID,
       response_type: "code",
-      redirect_uri: `${window.location.origin}/strava-auth`,
+      redirect_uri: process.env.REACT_APP_STRAVA_REDIRECT_URI, 
       approval_prompt: "force",
       scope:
         "read,read_all,profile:read_all,profile:write,activity:read,activity:read_all,activity:write",
