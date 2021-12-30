@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { formatDate } from "../utils/formatDateTime";
+import { formatDate, formatTime } from "../utils/formatDateTime";
 import Exercise from "./Exercise";
 import axios from "axios";
 import {
@@ -19,6 +19,7 @@ export default function Workout() {
   const [exerciseName, setExerciseName] = useState("");
   const [error, setError] = useState("");
   const date = formatDate(workout.start_date);
+  const time = formatTime(workout.start_date);
 
   useEffect(() => {
     axios
@@ -64,7 +65,8 @@ export default function Workout() {
 
   return (
     <div>
-      <h2 className="title is-2 has-text-centered mt-3">{date}</h2>
+      <h2 className="title is-3 has-text-centered mt-3">{date}</h2>
+      <h3 className="subtitle is-5 has-text-centered">{time}</h3>
       <div className="container is-fluid has-text-centered">
         {showForm ? (
           <form onSubmit={handleSubmit}>

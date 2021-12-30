@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { formatDate } from "../utils/formatDateTime";
+import { formatDate, formatTime } from "../utils/formatDateTime";
 import { workoutListUrl, workoutUrl } from "../utils/endPoints";
 
 export default function WorkoutList() {
@@ -28,7 +28,7 @@ export default function WorkoutList() {
         <div key={workout.id} className="box m-5">
           <div className="mb-3">
             <span style={{ fontSize: "x-large" }}>
-              {formatDate(workout.start_date)}
+              {formatDate(workout.start_date)} {formatTime(workout.start_date)}
             </span>
             <div style={{ float: "right" }}>
               <button

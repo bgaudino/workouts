@@ -6,6 +6,7 @@ import {
   formatDuration,
   getAveragePace,
 } from "../utils/formatCardio";
+import { formatDate, formatTime } from "../utils/formatDateTime";
 
 export default function CardioList() {
   const [workouts, setWorkouts] = useState([]);
@@ -76,7 +77,9 @@ export default function CardioList() {
       {workouts.map((workout) => (
         <div className="card m-5" key={workout.id}>
           <div className="card-header">
-            <p className="card-header-title">{workout.name}</p>
+            <p className="card-header-title">
+              {formatDate(workout.start_date)} {formatTime(workout.start_date)}: {workout.name}
+            </p>
           </div>
           <div className="card-content">
             <p>
