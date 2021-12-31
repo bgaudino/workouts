@@ -11,14 +11,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Nav />
-        <div className="container is-max-desktop">
-          <Routes>
-            <Route path="/" element={<WorkoutList />}></Route>
-            <Route path="/workout/:id" element={<Workout />} />
-            <Route path="/strava-auth" element={<StravaAuth />} />
-            <Route path="/cardio" element={<CardioList />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<WorkoutList />}></Route>
+          <Route path="/workout/:id" element={<Workout />} />
+          <Route path="/strava-auth" element={<StravaAuth />} />
+          <Route path="/cardio" element={<CardioList />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

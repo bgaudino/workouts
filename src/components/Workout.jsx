@@ -64,63 +64,69 @@ export default function Workout() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h2 className="title is-3 has-text-centered mt-3">{date}</h2>
-      <h3 className="subtitle is-5 has-text-centered">{time}</h3>
-      <div className="container is-fluid has-text-centered">
-        {showForm ? (
-          <form onSubmit={handleSubmit}>
-            <div className="field has-addons">
-              <div className="control is-expanded">
-                <input
-                  autoFocus
-                  className="input is-fullwidth"
-                  value={exerciseName}
-                  onChange={(e) => setExerciseName(e.target.value)}
-                  type="text"
-                  name="exercise"
-                  placeholder="Exercise name"
-                />
+    <>
+      <section class="hero is-primary is-small has-text-centered">
+        <div class="hero-body">
+          <p class="title">{date}</p>
+          <p class="subtitle">{time}</p>
+        </div>
+      </section>
+      <div className="container mt-5 is-max-desktop">
+        <div className="container is-fluid has-text-centered">
+          {showForm ? (
+            <form onSubmit={handleSubmit}>
+              <div className="field has-addons">
+                <div className="control is-expanded">
+                  <input
+                    autoFocus
+                    className="input is-fullwidth"
+                    value={exerciseName}
+                    onChange={(e) => setExerciseName(e.target.value)}
+                    type="text"
+                    name="exercise"
+                    placeholder="Exercise name"
+                  />
+                </div>
+                <div className="control">
+                  <button
+                    disabled={!exerciseName}
+                    className="button is-success"
+                    type="submit"
+                  >
+                    <FontAwesomeIcon icon={faCheck} />
+                  </button>
+                </div>
+                <div className="control">
+                  <button
+                    className="button is-danger"
+                    onClick={() => setShowForm(false)}
+                  >
+                    <FontAwesomeIcon icon={faWindowClose} />
+                  </button>
+                </div>
               </div>
-              <div className="control">
-                <button
-                  disabled={!exerciseName}
-                  className="button is-success"
-                  type="submit"
-                >
-                  <FontAwesomeIcon icon={faCheck} />
-                </button>
-              </div>
-              <div className="control">
-                <button
-                  className="button is-danger"
-                  onClick={() => setShowForm(false)}
-                >
-                  <FontAwesomeIcon icon={faWindowClose} />
-                </button>
-              </div>
-            </div>
-          </form>
-        ) : (
-          <button
-            style={{ margin: "auto" }}
-            className="button is-primary"
-            onClick={() => setShowForm(true)}
-          >
-            Add New Exercise
-          </button>
-        )}
-        {!workout.exercises?.length && !showForm && (
-          <p className="mt-5">Add an exercise to get started</p>
-        )}
+            </form>
+          ) : (
+            <button
+              style={{ margin: "auto" }}
+              className="button is-primary"
+              onClick={() => setShowForm(true)}
+            >
+              Add New Exercise
+            </button>
+          )}
+          {!workout.exercises?.length && !showForm && (
+            <p className="mt-5">Add an exercise to get started</p>
+          )}
+        </div>
+        {workout.exercises?.map((exercise) => (
+          <Exercise
+            key={exercise.id}
+            exercise={exercise}
+            handleDelete={handleDelete}
+          />
+        ))}
       </div>
-      {workout.exercises?.map((exercise) => (
-        <Exercise
-          key={exercise.id}
-          exercise={exercise}
-          handleDelete={handleDelete}
-        />
-      ))}
-    </div>
+    </>
   );
 }
