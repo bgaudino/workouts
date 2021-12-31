@@ -48,13 +48,13 @@ export default function CardioList() {
 
   return (
     <>
-      <section class="hero is-small is-primary">
-        <div class="hero-body">
-          <p class="title has-text-centered">Cardio</p>
+      <section className="hero is-small is-primary">
+        <div className="hero-body">
+          <p className="title has-text-centered">Cardio</p>
         </div>
       </section>
       <div className="container is-max-desktop">
-        <div class="card m-5">
+        <div className="card m-5">
           <div className="card-header">
             <img
               className="image m-2"

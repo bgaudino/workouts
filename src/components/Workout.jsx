@@ -65,10 +65,10 @@ export default function Workout() {
 
   return (
     <>
-      <section class="hero is-primary is-small has-text-centered">
-        <div class="hero-body">
-          <p class="title">{date}</p>
-          <p class="subtitle">{time}</p>
+      <section className="hero is-primary is-small has-text-centered">
+        <div className="hero-body">
+          <p className="title">{date}</p>
+          <p className="subtitle">{time}</p>
         </div>
       </section>
       <div className="container mt-5 is-max-desktop">

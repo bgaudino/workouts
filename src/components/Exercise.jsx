@@ -12,6 +12,7 @@ import {
   faWindowClose,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import Modal from "./Modal";
 
 export default function Exercise({ exercise, handleDelete }) {
   const [myExercise, setMyExercise] = useState(exercise);
@@ -20,6 +21,7 @@ export default function Exercise({ exercise, handleDelete }) {
   const [showForm, setShowForm] = useState(false);
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -122,7 +124,7 @@ export default function Exercise({ exercise, handleDelete }) {
           <div key={set.id}>
             Set {i + 1}: {set.weight}lbs x {set.reps}
             <span
-              class="icon has-text-danger"
+              className="icon has-text-danger"
               style={{ float: "right", cursor: "pointer" }}
             >
               <FontAwesomeIcon
@@ -190,12 +192,25 @@ export default function Exercise({ exercise, handleDelete }) {
         <div className="card-footer-item">
           <button
             className="button is-danger is-inverted"
-            onClick={() => handleDelete(exercise.id)}
+            onClick={() => setModalOpen(true)}
           >
             Delete Exercise
           </button>
         </div>
       </div>
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={() => {
+          handleDelete(exercise.id);
+          setModalOpen(false);
+        }}
+        title="Delete Exercise"
+        body="Are you sure you want to delete this exercise? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        isDanger
+      />
     </div>
   );
 }

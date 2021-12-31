@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { workoutListUrl, workoutUrl } from "../utils/endPoints";
+import Modal from "./Modal";
 
 export default function WorkoutList() {
   const [loading, setLoading] = useState(true);
@@ -29,14 +30,14 @@ export default function WorkoutList() {
 
   return (
     <>
-      <section class="hero is-small is-primary">
-        <div class="hero-body">
-          <p class="title has-text-centered">History</p>
+      <section className="hero is-small is-primary">
+        <div className="hero-body">
+          <p className="title has-text-centered">History</p>
         </div>
       </section>
       <div className="container is-max-desktop m-auto">
         {!workouts.length && (
-          <p className="has-text-centered">
+          <p className="has-text-centered mt-5">
             No workout yet. Click "New Workout" to get started.
           </p>
         )}
@@ -91,41 +92,20 @@ export default function WorkoutList() {
             </div>
           </div>
         ))}
-        <div className={modalOpen ? "modal is-active" : "modal"}>
-          <div
-            class="modal-background"
-            onClick={() => setModalOpen(false)}
-          ></div>
-          <div class="modal-card" style={{ maxWidth: 520 }}>
-            <header class="modal-card-head">
-              <p class="modal-card-title">Delete Confirmation</p>
-              <button
-                class="delete"
-                aria-label="close"
-                onClick={() => setModalOpen(false)}
-              ></button>
-            </header>
-            <section class="modal-card-body">
-              Are you sure you want to delete this workout? This cannot be
-              undone.
-            </section>
-            <footer class="modal-card-foot is-justify-content-end">
-              <button
-                class="button is-danger"
-                onClick={() => {
-                  deleteWorkout(selectedWorkout);
-                  setSelectedWorkout(null);
-                  setModalOpen(false);
-                }}
-              >
-                Delete
-              </button>
-              <button class="button" onClick={() => setModalOpen(false)}>
-                Cancel
-              </button>
-            </footer>
-          </div>
-        </div>
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Delete Workout"
+          body="Are you sure you want to delete this workout? This action cannot be undone."
+          confirmText="Delete"
+          cancelText="Cancel"
+          isDanger
+          onConfirm={() => {
+            deleteWorkout(selectedWorkout);
+            setSelectedWorkout(null);
+            setModalOpen(false);
+          }}
+        />
       </div>
     </>
   );
