@@ -1,5 +1,3 @@
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
-
 export const workoutListUrl = "/exercise/workouts/";
 export const workoutUrl = (id) => `/exercise/workout/${id}/`;
 export const exerciseCreateUrl = "/exercise/create_or_update/";

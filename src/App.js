@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     localStorage.getItem("accessToken") ? signIn() : signOut();
-  }, []);
+  }, [signIn, signOut]);
 
   if (loading) return null;
 
