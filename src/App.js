@@ -13,7 +13,7 @@ import { useAuth } from "./hooks/auth";
 
 function App() {
   const auth = useAuth();
-  const { signIn, signOut, loading } = auth;
+  const { signIn, signOut } = auth;
 
   useEffect(() => {
     try {
@@ -22,8 +22,6 @@ function App() {
       console.log(err);
     }
   }, [signIn, signOut]);
-
-  if (loading) return null;
 
   return (
     <div className="App">
