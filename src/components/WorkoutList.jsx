@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../utils/axios";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { workoutListUrl, workoutUrl } from "../utils/endPoints";
 import Modal from "./Modal";
@@ -13,7 +13,7 @@ export default function WorkoutList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(workoutListUrl)
       .then((res) => setWorkouts(() => res.data))
       .catch((err) => console.log(err))
@@ -21,7 +21,7 @@ export default function WorkoutList() {
   }, []);
 
   async function deleteWorkout(id) {
-    const res = await axios.delete(workoutUrl(id));
+    const res = await axiosInstance.delete(workoutUrl(id));
     if (res.status === 204)
       setWorkouts(() => workouts.filter((workout) => workout.id !== id));
   }

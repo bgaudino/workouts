@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { workoutListUrl } from "../utils/endPoints";
-import axios from "axios";
+import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) setIsAuthenticated(false);
+    else setIsAuthenticated(true);
+    setLoading(false);
+  }, []);
+
   async function startWorkout() {
-    const res = await axios.post(workoutListUrl);
+    const res = await axiosInstance.post(workoutListUrl);
     navigate(`/workout/${res.data.id}`);
   }
+
+  // useEffect(() => {
+  //   if (!isAuthenticated && !loading) {
+  //     navigate("/login");
+  //   }
+  // }, [loading, isAuthenticated]);
 
   return (
     <nav

@@ -4,7 +4,7 @@ import {
   setDeleteUrl,
   exerciseUpdateUrl,
 } from "../utils/endPoints";
-import axios from "axios";
+import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -25,7 +25,7 @@ export default function Exercise({ exercise, handleDelete }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await axios.post(setCreateUrl, {
+    const res = await axiosInstance.post(setCreateUrl, {
       exercise_id: exercise.id,
       weight,
       reps,
@@ -38,7 +38,7 @@ export default function Exercise({ exercise, handleDelete }) {
   }
 
   async function deleteSet(id) {
-    const res = await axios.delete(setDeleteUrl(id));
+    const res = await axiosInstance.delete(setDeleteUrl(id));
     if (res.status === 204)
       setMyExercise({
         ...myExercise,
@@ -47,7 +47,7 @@ export default function Exercise({ exercise, handleDelete }) {
   }
 
   async function updateName() {
-    const res = await axios.put(exerciseUpdateUrl, {
+    const res = await axiosInstance.put(exerciseUpdateUrl, {
       exercise_id: exercise.id,
       exercise_name: exerciseName,
     });

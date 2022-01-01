@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../utils/axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { stravaAuthUrl } from "../utils/endPoints";
@@ -10,7 +10,7 @@ export default function StravaAuth() {
     const code = new URLSearchParams(window.location.search).get("code");
     window.history.replaceState(null, "", window.location.href.split("?")[0]);
     if (code) {
-      axios.post(stravaAuthUrl, { code }).then((res) => {
+      axiosInstance.post(stravaAuthUrl, { code }).then((res) => {
         if (res.status === 200) navigate("/cardio");
       });
     } else {

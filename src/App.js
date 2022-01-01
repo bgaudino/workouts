@@ -6,6 +6,7 @@ import Workout from "./components/Workout";
 import Nav from "./components/Nav";
 import StravaAuth from "./components/StravaAuth";
 import CardioList from "./components/CardioList";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/workout/:id" element={<Workout />} />
           <Route path="/strava-auth" element={<StravaAuth />} />
           <Route path="/cardio" element={<CardioList />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

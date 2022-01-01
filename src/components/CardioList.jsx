@@ -1,4 +1,3 @@
-import axios from "axios";
 import stravaConnectButton from "../images/stravaConnectButton.png";
 import poweredByStrava from "../images/poweredByStrava.png";
 import { useState, useEffect } from "react";
@@ -9,6 +8,7 @@ import {
   getAveragePace,
 } from "../utils/formatCardio";
 import { formatDate, formatTime } from "../utils/formatDateTime";
+import { axiosInstance } from "../utils/axios";
 
 export default function CardioList() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ export default function CardioList() {
   }
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(cardioListUrl)
       .then((res) => {
         setWorkouts(() => res.data.cardio_sessions);
@@ -66,21 +66,19 @@ export default function CardioList() {
           <div className="card-content">
             {accounts.length > 0 ? (
               accounts.map((account) => (
-                <>
-                  <div className="media">
-                    <div className="media-left">
-                      <figure className="image is-48x48">
-                        <img src={account.avatar} alt="Avatar" />
-                      </figure>
-                    </div>
-                    <div className="media-content">
-                      <p className="title is-4">
-                        {account.first_name} {account.last_name}
-                      </p>
-                      <p className="subtitle is-6">@{account.username}</p>
-                    </div>
+                <div key={account.id} className="media">
+                  <div className="media-left">
+                    <figure className="image is-48x48">
+                      <img src={account.avatar} alt="Avatar" />
+                    </figure>
                   </div>
-                </>
+                  <div className="media-content">
+                    <p className="title is-4">
+                      {account.first_name} {account.last_name}
+                    </p>
+                    <p className="subtitle is-6">@{account.username}</p>
+                  </div>
+                </div>
               ))
             ) : (
               <p>

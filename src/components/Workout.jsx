@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import Exercise from "./Exercise";
-import axios from "axios";
+import { axiosInstance } from "../utils/axios";
 import {
   exerciseCreateUrl,
   exerciseDeleteUrl,
@@ -22,7 +22,7 @@ export default function Workout() {
   const time = formatTime(workout.start_date);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(workoutUrl(id))
       .then((res) => {
         setWorkout(() => res.data);
@@ -39,7 +39,7 @@ export default function Workout() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await axios.post(exerciseCreateUrl, {
+    const res = await axiosInstance.post(exerciseCreateUrl, {
       workout_id: workout.id,
       exercise_name: exerciseName,
     });
@@ -52,7 +52,7 @@ export default function Workout() {
   }
 
   async function handleDelete(id) {
-    const res = await axios.delete(exerciseDeleteUrl(id));
+    const res = await axiosInstance.delete(exerciseDeleteUrl(id));
     if (res.status === 204)
       setWorkout(() => ({
         ...workout,
