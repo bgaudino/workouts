@@ -16,7 +16,11 @@ function App() {
   const { signIn, signOut, loading } = auth;
 
   useEffect(() => {
-    localStorage.getItem("accessToken") ? signIn() : signOut();
+    try {
+      localStorage.getItem("accessToken") ? signIn() : signOut();
+    } catch (err) {
+      console.log(err);
+    }
   }, [signIn, signOut]);
 
   if (loading) return null;
