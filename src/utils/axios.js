@@ -16,7 +16,6 @@ axiosInstance.interceptors.request.use(
     const decoded = jwtDecode(token);
     const expiry = decoded.exp;
     const now = new Date().getTime() / 1000;
-    console.log(expiry - now);
     const isValid = expiry - now > 60;
     if (!isValid) {
       console.log("Refreshing");
@@ -45,8 +44,9 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status === 401) logout();
-    return error;
+    if (!error.config.url.includes("token") && error.response.status === 401)
+      logout();
+    return Promise.reject(error);
   }
 );
 

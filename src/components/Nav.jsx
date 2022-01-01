@@ -1,33 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { workoutListUrl } from "../utils/endPoints";
 import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../hooks/auth";
 
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) setIsAuthenticated(false);
-    else setIsAuthenticated(true);
-    setLoading(false);
-  }, []);
+  const auth = useAuth();
+  const { user, isAuthenticated } = auth;
 
   async function startWorkout() {
     const res = await axiosInstance.post(workoutListUrl);
     navigate(`/workout/${res.data.id}`);
   }
-
-  // useEffect(() => {
-  //   if (!isAuthenticated && !loading) {
-  //     navigate("/login");
-  //   }
-  // }, [loading, isAuthenticated]);
 
   return (
     <nav
@@ -46,25 +34,40 @@ export default function Nav() {
               Workout Tracker
             </p>
           </div>
-          <div className="navbar-item">
-            <button
-              onClick={startWorkout}
-              className="button is-dark desktop-link"
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp;Workout
-            </button>
-          </div>
-          <div className="navbar-item desktop-link">
-            <Link to="/">
-              <button className="button is-dark">History</button>
-            </Link>
-          </div>
-          <div className="navbar-item desktop-link">
-            <Link to="/cardio">
-              <button className="button is-dark">Cardio</button>
-            </Link>
-          </div>
+          {isAuthenticated ? (
+            <>
+              <div className="navbar-item">
+                <button
+                  onClick={startWorkout}
+                  className="button is-dark desktop-link"
+                >
+                  <FontAwesomeIcon icon={faPlusCircle} />
+                  &nbsp;Workout
+                </button>
+              </div>
+              <div className="navbar-item desktop-link">
+                <Link to="/">
+                  <button className="button is-dark">History</button>
+                </Link>
+              </div>
+              <div className="navbar-item desktop-link">
+                <Link to="/cardio">
+                  <button className="button is-dark">Cardio</button>
+                </Link>
+              </div>
+              <div className="navbar-item desktop-link">
+                <button className="button is-dark" onClick={auth.signOut}>
+                  Logout{user ? `, ${user.first_name || user.email}` : ""}
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="navbar-item desktop-link">
+              <Link to="/login">
+                <button className="button is-dark">Login</button>
+              </Link>
+            </div>
+          )}
           <div
             role="button"
             className={
@@ -86,32 +89,66 @@ export default function Nav() {
           id="navbarBasicExample"
           className={
             showMenu
-              ? "navbar-menu is-active mobile-menu"
+              ? "navbar-menu is-active mobile-menu has-background-dark"
               : "navbar-menu mobile-menu"
           }
         >
           <div className="navbar-start">
-            <div className="navbar-item">
-              <Link
-                to={window.location.href}
-                onClick={() => {
-                  startWorkout();
-                  setShowMenu(false);
-                }}
-              >
-                New Workout
-              </Link>
-            </div>
-            <div className="navbar-item">
-              <Link to="/" onClick={() => setShowMenu(false)}>
-                History
-              </Link>
-            </div>
-            <div className="navbar-item">
-              <Link to="/cardio" onClick={() => setShowMenu(false)}>
-                Cardio
-              </Link>
-            </div>
+            {isAuthenticated ? (
+              <>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to={window.location.href}
+                    onClick={() => {
+                      startWorkout();
+                      setShowMenu(false);
+                    }}
+                  >
+                    New Workout
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    History
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/cardio"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Cardio
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <button
+                    className="button is-dark"
+                    onClick={() => {
+                      auth.signOut();
+                      setShowMenu(false);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="navbar-item">
+                <Link
+                  className="button is-dark"
+                  to="/login"
+                  onClick={() => setShowMenu(false)}
+                >
+                  Login
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
