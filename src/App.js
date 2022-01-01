@@ -1,4 +1,5 @@
 import "bulma/css/bulma.min.css";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WorkoutList from "./components/WorkoutList";
 import Workout from "./components/Workout";
@@ -8,7 +9,7 @@ import CardioList from "./components/CardioList";
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <BrowserRouter>
         <Nav />
         <Routes>
