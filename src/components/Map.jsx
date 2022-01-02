@@ -17,7 +17,12 @@ export default function Map({ route }) {
 
   return (
     <MapContainer
-      style={{ height: 300 }}
+      style={{
+        height: 300,
+        margin: "auto",
+        marginBottom: 20,
+        borderRadius: "5px",
+      }}
       center={center}
       zoom={14}
       scrollWheelZoom={false}
