@@ -9,6 +9,14 @@ import {
 } from "../utils/formatCardio";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { axiosInstance } from "../utils/axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClock,
+  faHeartbeat,
+  faRoad,
+  faRunning,
+  faTachometerAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function CardioList() {
   const [loading, setLoading] = useState(true);
@@ -200,35 +208,58 @@ export default function CardioList() {
               </p>
             </div>
             <div className="card-content">
-              <p>
-                <strong>Distance: </strong>
+              <p className="stats">
+                <span className="tag is-info mb-1">
+                  <FontAwesomeIcon icon={faRoad} />
+                  &nbsp;Distance
+                </span>
                 {formatDistance(workout.distance)} miles
               </p>
-              <p>
-                <strong>Duration: </strong>
+              <p className="stats">
+                <span className="tag is-info mb-1">
+                  <FontAwesomeIcon icon={faClock} />
+                  &nbsp;Duration
+                </span>
                 {formatDuration(workout.moving_time)} minutes
               </p>
-              <p>
-                <strong>Average Pace: </strong>
+              <br />
+              <p className="stats">
+                <span className="tag is-success mb-1">
+                  <FontAwesomeIcon icon={faRunning} />
+                  &nbsp;Average Pace
+                </span>
                 {getAveragePace(workout.distance, workout.moving_time)} minutes
                 per mile
               </p>
-              <p>
-                <strong>Avg Speed: </strong>
+              <p className="stats">
+                <span className="tag is-success mb-1">
+                  <FontAwesomeIcon icon={faTachometerAlt} />
+                  &nbsp;Avg Speed
+                </span>
                 {workout.average_speed} mph
               </p>
-              <p>
-                <strong>Max Speed: </strong>
+              <p className="stats">
+                <span className="tag is-success mb-1">
+                  <FontAwesomeIcon icon={faTachometerAlt} />
+                  &nbsp; Max Speed
+                </span>
                 {workout.max_speed} mph
               </p>
               {workout.has_heartrate && (
                 <>
-                  <p>
-                    <strong>Avg Heartrate: </strong>
+                  <br />
+                  <p className="stats">
+                    <span className="tag is-danger mb-1">
+                      <FontAwesomeIcon icon={faHeartbeat} />
+                      &nbsp;Avg Heartrate
+                    </span>
                     {workout.average_heartrate} bpm
                   </p>
-                  <p>
-                    <strong>Max Heartrate: </strong>
+                  <p className="stats">
+                    <span className="tag is-danger mb-1">
+                      <FontAwesomeIcon icon={faHeartbeat} />
+                      &nbsp;Max Heartrate
+                    </span>
                     {workout.max_heartrate} bpm
                   </p>
                 </>

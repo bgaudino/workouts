@@ -79,6 +79,7 @@ export default function Workout() {
                 <div className="control is-expanded">
                   <input
                     autoFocus
+                    list="exercise-types"
                     className="input is-fullwidth"
                     value={exerciseName}
                     onChange={(e) => setExerciseName(e.target.value)}
@@ -86,7 +87,19 @@ export default function Workout() {
                     name="exercise"
                     placeholder="Exercise name"
                   />
+                  <datalist id="exercise-types">
+                    <option value="Barbell Squat" />
+                    <option value="Bench Press" />
+                    <option value="Bent Over Row" />
+                    <option value="Biceps Curl" />
+                    <option value="Cable Row" />
+                    <option value="Deadlift" />
+                    <option value="Dumbbell Row" />
+                    <option value="Dumbbell Shoulder Press" />
+                    <option value="Lat Pulldown" />
+                  </datalist>
                 </div>
+
                 <div className="control">
                   <button
                     disabled={!exerciseName}
