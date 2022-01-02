@@ -10,6 +10,7 @@ import {
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import RestTimer from "./RestTimer";
 
 export default function Workout() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function Workout() {
   const [showForm, setShowForm] = useState(false);
   const [exerciseName, setExerciseName] = useState("");
   const [error, setError] = useState("");
+  const [timerOpen, setTimerOpen] = useState(false);
   const date = formatDate(workout.start_date);
   const time = formatTime(workout.start_date);
 
@@ -65,6 +67,7 @@ export default function Workout() {
 
   return (
     <>
+      <RestTimer open={timerOpen} onClose={() => setTimerOpen(false)} />
       <section className="hero is-primary is-small has-text-centered">
         <div className="hero-body">
           <p className="title">{date}</p>
@@ -120,13 +123,21 @@ export default function Workout() {
               </div>
             </form>
           ) : (
-            <button
-              style={{ margin: "auto" }}
-              className="button is-primary"
-              onClick={() => setShowForm(true)}
-            >
-              Add New Exercise
-            </button>
+            <>
+              <button
+                style={{ margin: "auto" }}
+                className="button is-primary"
+                onClick={() => setShowForm(true)}
+              >
+                Add New Exercise
+              </button>
+              <button
+                className="button is-info ml-3"
+                onClick={() => setTimerOpen(true)}
+              >
+                Start Timer
+              </button>
+            </>
           )}
           {!workout.exercises?.length && !showForm && (
             <p className="mt-5">Add an exercise to get started</p>
