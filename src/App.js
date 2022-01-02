@@ -1,6 +1,6 @@
 import "bulma/css/bulma.min.css";
 import "./App.css";
-import { useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WorkoutList from "./components/WorkoutList";
 import Workout from "./components/Workout";
@@ -13,15 +13,16 @@ import { useAuth } from "./hooks/auth";
 
 function App() {
   const auth = useAuth();
-  const { signIn, signOut } = auth;
+  const [loading, setLoading] = useState(true);
+  const { signIn } = auth;
 
-  useEffect(() => {
-    try {
-      localStorage.getItem("accessToken") ? signIn() : signOut();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [signIn, signOut]);
+  useLayoutEffect(() => {
+    signIn().then(() => setLoading(false));
+  }, [signIn]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">

@@ -44,58 +44,65 @@ export default function Login() {
   }
 
   return (
-    <div className="container is-max-desktop p-6">
-      <form onSubmit={handleSubmit}>
-        <div className="field">
-          <label className="label">Email</label>
-          <div className="control has-icons-left">
-            <input
-              autoFocus
-              className={isValidEmail ? "input is-success" : "input"}
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError("");
-              }}
-            />
-            <span className="icon is-small is-left">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </span>
-          </div>
+    <>
+      <section className="hero is-small is-info">
+        <div className="hero-body">
+          <p className="title has-text-centered">Login</p>
         </div>
-
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control has-icons-left">
-            <input
-              className="input"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError("");
-              }}
-            />
-            <span className="icon is-small is-left">
-              <FontAwesomeIcon icon={faLock} />
-            </span>
+      </section>
+      <div className="container is-max-desktop p-6">
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label className="label">Email</label>
+            <div className="control has-icons-left">
+              <input
+                autoFocus
+                className={isValidEmail ? "input is-success" : "input"}
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                }}
+              />
+              <span className="icon is-small is-left">
+                <FontAwesomeIcon icon={faEnvelope} />
+              </span>
+            </div>
           </div>
-          {error && <p className="help is-danger">{error}</p>}
-        </div>
 
-        <fieldset className="field">
-          <div className="control">
-            <button
-              disabled={!isValidEmail || !isValidPassword}
-              type="submit"
-              className="button is-link is-fullwidth"
-            >
-              Login
-            </button>
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control has-icons-left">
+              <input
+                className="input"
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setError("");
+                }}
+              />
+              <span className="icon is-small is-left">
+                <FontAwesomeIcon icon={faLock} />
+              </span>
+            </div>
+            {error && <p className="help is-danger">{error}</p>}
           </div>
-        </fieldset>
-      </form>
-    </div>
+
+          <fieldset className="field">
+            <div className="control">
+              <button
+                disabled={!isValidEmail || !isValidPassword}
+                type="submit"
+                className="button is-info is-fullwidth"
+              >
+                Login
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </>
   );
 }
