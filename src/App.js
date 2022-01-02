@@ -13,12 +13,13 @@ import { useAuth } from "./hooks/auth";
 
 function App() {
   const auth = useAuth();
-  const [loading, setLoading] = useState(true);
   const { signIn } = auth;
+  const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
     signIn().then(() => setLoading(false));
-  }, [signIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
