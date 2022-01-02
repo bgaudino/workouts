@@ -4,7 +4,6 @@ import { axiosInstance } from "../utils/axios";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { workoutListUrl, workoutUrl } from "../utils/endPoints";
 import Modal from "./Modal";
-import Loading from "./Loading";
 
 export default function WorkoutList() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +31,7 @@ export default function WorkoutList() {
     navigate(`/workout/${res.data.id}`);
   }
 
-  if (loading) return <Loading />;
+  if (loading) return null;
 
   return (
     <>
