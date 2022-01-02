@@ -14,6 +14,13 @@ export default function CardioList() {
   const [loading, setLoading] = useState(true);
   const [workouts, setWorkouts] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [count, setCount] = useState(0);
+  const pageNumbers = count > 0 ? Math.ceil(count / 10) : 0;
+  let pages = [];
+  for (let i = 0; i < pageNumbers; i++) {
+    pages.push(i + 1);
+  }
+  const [offset, setOffset] = useState(0);
 
   function authorizeStrava() {
     const url = new URL("https://www.strava.com/oauth/authorize");
@@ -33,16 +40,17 @@ export default function CardioList() {
 
   useEffect(() => {
     axiosInstance
-      .get(cardioListUrl)
+      .get(cardioListUrl + "?offset=" + offset)
       .then((res) => {
         setWorkouts(() => res.data.cardio_sessions);
         setAccounts(() => res.data.strava_accounts);
+        setCount(() => res.data.count);
         setLoading(() => false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [offset]);
 
   if (loading) return null;
 
@@ -97,7 +105,92 @@ export default function CardioList() {
             </a>
           </div>
         </div>
-
+        {count > 0 && (
+          <div className="container p-5">
+            <nav
+              className="pagination"
+              role="navigation"
+              aria-label="pagination"
+            >
+              <button
+                className="button pagination-previous"
+                disabled={offset === 0}
+                onClick={() => {
+                  if (offset > 0) setOffset(offset - 1);
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="button pagination-next"
+                disabled={offset === pageNumbers - 1}
+                onClick={() => {
+                  if (offset < pageNumbers - 1) setOffset(offset + 1);
+                }}
+              >
+                Next page
+              </button>
+              <ul className="pagination-list">
+                {pages.map((page, index) => {
+                  if (pageNumbers <= 5) {
+                    return (
+                      <li
+                        key={index}
+                        className={
+                          offset === index
+                            ? "pagination-link is-current"
+                            : "pagination-link"
+                        }
+                        onClick={() => setOffset(index)}
+                      >
+                        {page}
+                      </li>
+                    );
+                  }
+                  if (
+                    (offset < 3 && index < 3) ||
+                    index === 0 ||
+                    index === pageNumbers - 1 ||
+                    index === offset
+                  ) {
+                    return (
+                      <li>
+                        <button
+                          className={
+                            offset === page - 1
+                              ? "button pagination-link is-current"
+                              : "button pagination-link"
+                          }
+                          aria-label={`Goto page ${page}`}
+                          onClick={() => setOffset(page - 1)}
+                        >
+                          {page}
+                        </button>
+                      </li>
+                    );
+                  }
+                  if (
+                    (offset < 3 && index === 3) ||
+                    index === offset + 1 ||
+                    index === offset - 1
+                  ) {
+                    return (
+                      <li>
+                        <span className="pagination-ellipsis">&hellip;</span>
+                      </li>
+                    );
+                  }
+                  return null;
+                })}
+              </ul>
+            </nav>
+          </div>
+        )}
+        {!workouts.length && (
+          <div className="container p-5 has-text-centered">
+            <p>No cardio sessions found.</p>
+          </div>
+        )}
         {workouts.map((workout) => (
           <div className="card m-5" key={workout.id}>
             <div className="card-header">
