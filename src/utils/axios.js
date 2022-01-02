@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   async function (config) {
-    if (config.url.includes("/token/")) {
+    if (config?.url.includes("/token/")) {
       return config;
     }
     // Do something before request is sent
@@ -44,7 +44,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (!error.config.url.includes("token") && error.response.status === 401)
+    if (!error.config?.url.includes("token") && error.response?.status === 401)
       logout();
     return Promise.reject(error);
   }
