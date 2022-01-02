@@ -10,9 +10,15 @@ export default function StravaAuth() {
     const code = new URLSearchParams(window.location.search).get("code");
     window.history.replaceState(null, "", window.location.href.split("?")[0]);
     if (code) {
-      axiosInstance.post(stravaAuthUrl, { code }).then((res) => {
-        if (res.status === 200) navigate("/cardio");
-      });
+      axiosInstance
+        .post(stravaAuthUrl, { code })
+        .then((res) => {
+          if (res.status === 200) navigate("/cardio");
+        })
+        .catch((err) => {
+          alert(err.response?.data?.detail || "Something went wrong");
+          navigate("/");
+        });
     } else {
       navigate("/");
     }
