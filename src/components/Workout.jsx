@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import Exercise from "./Exercise";
+import Loading from "./Loading";
 import { axiosInstance } from "../utils/axios";
 import {
   exerciseCreateUrl,
@@ -60,7 +61,7 @@ export default function Workout() {
       }));
   }
 
-  if (loading) return null;
+  if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
   return (

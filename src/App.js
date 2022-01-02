@@ -9,6 +9,7 @@ import StravaAuth from "./components/StravaAuth";
 import CardioList from "./components/CardioList";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Loading from "./components/Loading";
 import AuthGuard from "./guards/AuthGuard";
 import { useAuth } from "./hooks/auth";
 
@@ -22,9 +23,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="App">

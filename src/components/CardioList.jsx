@@ -7,6 +7,7 @@ import {
   formatDuration,
   getAveragePace,
 } from "../utils/formatCardio";
+import Loading from "./Loading";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { axiosInstance } from "../utils/axios";
 
@@ -44,7 +45,7 @@ export default function CardioList() {
       });
   }, []);
 
-  if (loading) return null;
+  if (loading) return <Loading />;
 
   return (
     <>
