@@ -8,6 +8,7 @@ import Nav from "./components/Nav";
 import StravaAuth from "./components/StravaAuth";
 import CardioList from "./components/CardioList";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import AuthGuard from "./guards/AuthGuard";
 import { useAuth } from "./hooks/auth";
 
@@ -63,6 +64,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>

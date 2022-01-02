@@ -26,6 +26,11 @@ export default function WorkoutList() {
       setWorkouts(() => workouts.filter((workout) => workout.id !== id));
   }
 
+  async function startWorkout() {
+    const res = await axiosInstance.post(workoutListUrl);
+    navigate(`/workout/${res.data.id}`);
+  }
+
   if (loading) return null;
 
   return (
@@ -37,9 +42,14 @@ export default function WorkoutList() {
       </section>
       <div className="container is-max-desktop m-auto">
         {!workouts.length && (
-          <p className="has-text-centered mt-5">
-            No workout yet. Click "New Workout" to get started.
-          </p>
+          <div className="has-text-centered">
+            <p className="has-text-centered mt-5 mb-4">
+              No workout yet. Click "New Workout" to get started.
+            </p>
+            <button className="button is-primary" onClick={startWorkout}>
+              New Workout
+            </button>
+          </div>
         )}
         {workouts.map((workout) => (
           <div key={workout.id} className="box m-5">

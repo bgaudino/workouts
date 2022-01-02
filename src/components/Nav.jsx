@@ -62,11 +62,18 @@ export default function Nav() {
               </div>
             </>
           ) : (
-            <div className="navbar-item desktop-link">
-              <Link to="/login">
-                <button className="button is-dark">Login</button>
-              </Link>
-            </div>
+            <>
+              <div className="navbar-item desktop-link">
+                <Link to="/login">
+                  <button className="button is-dark">Login</button>
+                </Link>
+              </div>
+              <div className="navbar-item desktop-link">
+                <Link to="/register">
+                  <button className="button is-dark">Register</button>
+                </Link>
+              </div>
+            </>
           )}
           <div
             role="button"
@@ -139,15 +146,26 @@ export default function Nav() {
                 </div>
               </>
             ) : (
-              <div className="navbar-item">
-                <Link
-                  className="button is-dark"
-                  to="/login"
-                  onClick={() => setShowMenu(false)}
-                >
-                  Login
-                </Link>
-              </div>
+              <>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/login"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Login
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/register"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Register
+                  </Link>
+                </div>
+              </>
             )}
           </div>
         </div>

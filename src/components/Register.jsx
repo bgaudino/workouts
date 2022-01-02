@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { tokenUrl } from "../utils/endPoints";
-import { axiosInstance } from "../utils/axios";
+import axios from "axios";
 import { useAuth } from "../hooks/auth";
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [confirmation, setConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const auth = useAuth();
   const { signIn } = auth;
   const navigate = useNavigate();
@@ -18,39 +18,58 @@ export default function Login() {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValidEmail = email.match(emailRegex);
   const isValidPassword = password.length > 7;
+  const isValidConfirmation = password === confirmation;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    axiosInstance
-      .post(tokenUrl, {
-        email,
-        password,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          localStorage.setItem("accessToken", res.data.access);
-          localStorage.setItem("refreshToken", res.data.refresh);
-          signIn().then(() => navigate("/"));
-        } else {
-          setError(res.response?.data?.detail || "Something went wrong");
-          setEmail("");
-          setPassword("");
+    try {
+      const res = await axios.post(
+        process.env.REACT_APP_BACKEND_URL + "/user/register/",
+        {
+          email,
+          password,
+          confirmation,
         }
-      })
-      .catch((err) => {
-        setError(err.response?.data?.detail || "Something went wrong");
-        setEmail("");
-        setPassword("");
-      })
-      .finally(() => setLoading(false));
+      );
+      if (res.status === 200) handleLogin();
+    } catch (err) {
+      setError(err.response?.data?.detail || "Something went wrong");
+      setEmail("");
+      setPassword("");
+      setConfirmation("");
+      setLoading(false);
+    }
+  }
+
+  async function handleLogin() {
+    try {
+      const res = await axios.post(
+        process.env.REACT_APP_BACKEND_URL + "/token/",
+        {
+          email,
+          password,
+        }
+      );
+      localStorage.setItem("accessToken", res.data.access);
+      localStorage.setItem("refreshToken", res.data.refresh);
+      await signIn();
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.detail || "Something went wrong");
+      setEmail("");
+      setPassword("");
+      setConfirmation("");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <>
       <section className="hero is-small is-info">
         <div className="hero-body">
-          <p className="title has-text-centered">Login</p>
+          <p className="title has-text-centered">Register</p>
         </div>
       </section>
       <div className="container is-max-desktop p-6">
@@ -78,7 +97,7 @@ export default function Login() {
             <label className="label">Password</label>
             <div className="control has-icons-left">
               <input
-                className="input"
+                className={isValidPassword ? "input is-success" : "input"}
                 type="password"
                 value={password}
                 onChange={(e) => {
@@ -90,25 +109,60 @@ export default function Login() {
                 <FontAwesomeIcon icon={faLock} />
               </span>
             </div>
+            {password && !isValidPassword && (
+              <p className="help is-info">
+                Password must be at least 8 characters
+              </p>
+            )}
+          </div>
+
+          <div className="field">
+            <label className="label">Confirmation</label>
+            <div className="control has-icons-left">
+              <input
+                className={
+                  isValidConfirmation && isValidPassword
+                    ? "input is-success"
+                    : "input"
+                }
+                type="password"
+                value={confirmation}
+                onChange={(e) => {
+                  setConfirmation(e.target.value);
+                  setError("");
+                }}
+              />
+              <span className="icon is-small is-left">
+                <FontAwesomeIcon icon={faLock} />
+              </span>
+            </div>
+            {!isValidConfirmation && (
+              <p className="help is-danger">Passwords do not match</p>
+            )}
             {error && <p className="help is-danger">{error}</p>}
           </div>
 
           <fieldset className="field">
             <div className="control">
               <button
-                disabled={!isValidEmail || !isValidPassword || loading}
+                disabled={
+                  !isValidEmail ||
+                  !isValidPassword ||
+                  !isValidConfirmation ||
+                  loading
+                }
                 type="submit"
                 className="button is-info is-fullwidth"
               >
-                Login
+                Register
               </button>
             </div>
           </fieldset>
         </form>
         <p className="has-text-centered mt-4">
-          Don't have an account?{" "}
-          <Link to="/register" className="has-text-info">
-            Register
+          Already have an account?{" "}
+          <Link to="/login" className="has-text-info">
+            Login
           </Link>
         </p>
         {loading && <progress className="progress is-primary is-info mt-5" />}
