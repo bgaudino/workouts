@@ -12,6 +12,7 @@ import Register from "./components/Register";
 import Loading from "./components/Loading";
 import AuthGuard from "./guards/AuthGuard";
 import { useAuth } from "./hooks/auth";
+import Map from "./components/Map";
 
 function App() {
   const auth = useAuth();
@@ -64,6 +65,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/map" element={<Map />} />
         </Routes>
       </BrowserRouter>
     </div>

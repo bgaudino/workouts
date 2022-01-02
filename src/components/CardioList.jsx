@@ -7,6 +7,7 @@ import {
   formatDuration,
   getAveragePace,
 } from "../utils/formatCardio";
+import Map from "./Map";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,6 +52,7 @@ export default function CardioList() {
     axiosInstance
       .get(cardioListUrl + "?offset=" + offset)
       .then((res) => {
+        console.log(res.data);
         setWorkouts(() => res.data.cardio_sessions);
         setAccounts(() => res.data.strava_accounts);
         setCount(() => res.data.count);
@@ -208,6 +210,11 @@ export default function CardioList() {
                 {formatTime(workout.start_date)}: {workout.name}
               </p>
             </div>
+            {workout.map?.summary_polyline && (
+              <div class="card-image">
+                <Map route={workout.map?.summary_polyline} />
+              </div>
+            )}
             <div className="card-content">
               <div className="columns">
                 <div className="column is-half">
