@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
   faHeartbeat,
+  faMountain,
   faRoad,
   faRunning,
   faTachometerAlt,
@@ -208,61 +209,88 @@ export default function CardioList() {
               </p>
             </div>
             <div className="card-content">
-              <p className="stats">
-                <span className="tag is-info mb-1">
-                  <FontAwesomeIcon icon={faRoad} />
-                  &nbsp;Distance
-                </span>
-                {formatDistance(workout.distance)} miles
-              </p>
-              <p className="stats">
-                <span className="tag is-info mb-1">
-                  <FontAwesomeIcon icon={faClock} />
-                  &nbsp;Duration
-                </span>
-                {formatDuration(workout.moving_time)} minutes
-              </p>
-              <br />
-              <p className="stats">
-                <span className="tag is-success mb-1">
-                  <FontAwesomeIcon icon={faRunning} />
-                  &nbsp;Average Pace
-                </span>
-                {getAveragePace(workout.distance, workout.moving_time)} minutes
-                per mile
-              </p>
-              <p className="stats">
-                <span className="tag is-success mb-1">
-                  <FontAwesomeIcon icon={faTachometerAlt} />
-                  &nbsp;Avg Speed
-                </span>
-                {workout.average_speed} mph
-              </p>
-              <p className="stats">
-                <span className="tag is-success mb-1">
-                  <FontAwesomeIcon icon={faTachometerAlt} />
-                  &nbsp; Max Speed
-                </span>
-                {workout.max_speed} mph
-              </p>
+              <div className="columns">
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-info">
+                      <FontAwesomeIcon icon={faRoad} />
+                      &nbsp;Distance
+                    </span>
+                    {formatDistance(workout.distance)} miles
+                  </p>
+                </div>
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-info">
+                      <FontAwesomeIcon icon={faMountain} />
+                      &nbsp;Elevation Gain
+                    </span>
+                    {workout.total_elevation_gain} feet
+                  </p>
+                </div>
+              </div>
+              <div className="columns">
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-primary">
+                      <FontAwesomeIcon icon={faRunning} />
+                      &nbsp;Average Pace
+                    </span>
+                    {getAveragePace(workout.distance, workout.moving_time)} per
+                    mile
+                  </p>
+                </div>
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-primary">
+                      <FontAwesomeIcon icon={faClock} />
+                      &nbsp;Duration
+                    </span>
+                    {formatDuration(workout.moving_time)} minutes
+                  </p>
+                </div>
+              </div>
+              <div className="columns">
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-success">
+                      <FontAwesomeIcon icon={faTachometerAlt} />
+                      &nbsp;Avg Speed
+                    </span>
+                    {workout.average_speed} mph
+                  </p>
+                </div>
+                <div className="column is-half">
+                  <p className="stats">
+                    <span className="tag is-success">
+                      <FontAwesomeIcon icon={faTachometerAlt} />
+                      &nbsp; Max Speed
+                    </span>
+                    {workout.max_speed} mph
+                  </p>
+                </div>
+              </div>
               {workout.has_heartrate && (
-                <>
-                  <br />
-                  <p className="stats">
-                    <span className="tag is-danger mb-1">
-                      <FontAwesomeIcon icon={faHeartbeat} />
-                      &nbsp;Avg Heartrate
-                    </span>
-                    {workout.average_heartrate} bpm
-                  </p>
-                  <p className="stats">
-                    <span className="tag is-danger mb-1">
-                      <FontAwesomeIcon icon={faHeartbeat} />
-                      &nbsp;Max Heartrate
-                    </span>
-                    {workout.max_heartrate} bpm
-                  </p>
-                </>
+                <div className="columns">
+                  <div className="column is-half">
+                    <p className="stats">
+                      <span className="tag is-danger">
+                        <FontAwesomeIcon icon={faHeartbeat} />
+                        &nbsp;Avg Heartrate
+                      </span>
+                      {workout.average_heartrate} bpm
+                    </p>
+                  </div>
+                  <div className="column is-half">
+                    <p className="stats">
+                      <span className="tag is-danger">
+                        <FontAwesomeIcon icon={faHeartbeat} />
+                        &nbsp;Max Heartrate
+                      </span>
+                      {workout.max_heartrate} bpm
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           </div>

@@ -16,10 +16,22 @@ code {
   visibility: hidden;
 }
 
+.set {
+  display: grid;
+  grid-template-columns: 5rem auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.hover:hover {
+  background-color: #f5f5f5;
+}
+
 .stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  width: 100%;
 }
 
 @media screen and (max-width: 720px) {

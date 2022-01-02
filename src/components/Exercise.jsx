@@ -88,12 +88,12 @@ export default function Exercise({ exercise, handleDelete }) {
         </div>
         <div className="card-header-icon">
           {!nameEditable ? (
-            <span className="has-text-info">
+            <wpan className="has-text-info">
               <FontAwesomeIcon
                 icon={faEdit}
                 onClick={() => setNameEditable(true)}
               />
-            </span>
+            </wpan>
           ) : (
             <>
               <span className="has-text-danger">
@@ -121,17 +121,29 @@ export default function Exercise({ exercise, handleDelete }) {
           <p>Add a set to get started.</p>
         )}
         {myExercise.sets.map((set, i) => (
-          <div key={set.id}>
-            Set {i + 1}: {set.weight}lbs x {set.reps}
-            <span
-              className="icon has-text-danger"
+          <div
+            key={set.id}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+            }}
+          >
+            <div className="set mb-2">
+              <span className="tag is-info">Set {i + 1}</span>
+              <span>
+                {set.weight}lbs x {set.reps}
+              </span>
+            </div>
+            <button
+              className="button is-danger is-small"
               style={{ float: "right", cursor: "pointer" }}
             >
               <FontAwesomeIcon
                 icon={faTrash}
                 onClick={() => deleteSet(set.id)}
               />
-            </span>
+            </button>
           </div>
         ))}
         {showForm && (
