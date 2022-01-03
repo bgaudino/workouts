@@ -138,11 +138,9 @@ export default function Exercise({ exercise, handleDelete }) {
             <button
               className="button is-danger is-small"
               style={{ float: "right", cursor: "pointer" }}
+              onClick={() => deleteSet(set.id)}
             >
-              <FontAwesomeIcon
-                icon={faTrash}
-                onClick={() => deleteSet(set.id)}
-              />
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         ))}

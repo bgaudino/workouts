@@ -49,23 +49,25 @@ export default function Nav() {
           </div>
           {isAuthenticated && (
             <>
-              <div className="navbar-item">
-                <button
+              <div className="navbar-item desktop-link">
+                <a
+                  href
+                  role="button"
                   onClick={startWorkout}
-                  className="button is-dark desktop-link"
+                  className="has-text-white"
                 >
                   <FontAwesomeIcon icon={faPlusCircle} />
                   &nbsp;Workout
-                </button>
+                </a>
               </div>
               <div className="navbar-item desktop-link">
-                <Link to="/">
-                  <button className="button is-dark">History</button>
+                <Link className="has-text-white" to="/">
+                  History
                 </Link>
               </div>
               <div className="navbar-item desktop-link">
-                <Link to="/cardio">
-                  <button className="button is-dark">Cardio</button>
+                <Link className="has-text-white" to="/cardio">
+                  Cardio
                 </Link>
               </div>
             </>
@@ -74,9 +76,9 @@ export default function Nav() {
             <div className="navbar-item">
               <div className={showDropdown ? "dropdown is-active" : "dropdown"}>
                 <div className="dropdown-trigger">
-                  <button
-                    className="button is-dark"
-                    aria-haspopup="true"
+                  <a
+                    href
+                    className="has-text-white"
                     aria-controls="dropdown-menu"
                     onClick={() => setShowDropdown((prevState) => !prevState)}
                   >
@@ -86,13 +88,14 @@ export default function Nav() {
                     ) : (
                       <>&nbsp;Guest</>
                     )}
-                  </button>
+                  </a>
                 </div>
                 <div className="dropdown-menu" id="dropdown-menu" role="menu">
                   <div className="dropdown-content has-background-dark">
                     {isAuthenticated ? (
                       <div className="dropdown-item">
                         <button
+                          href
                           className="button is-dark"
                           onClick={() => {
                             auth.signOut();
@@ -105,23 +108,21 @@ export default function Nav() {
                     ) : (
                       <>
                         <div className="dropdown-item">
-                          <Link to="/login">
-                            <button
-                              className="button is-dark"
-                              onClick={() => setShowDropdown(false)}
-                            >
-                              Login
-                            </button>
+                          <Link
+                            to="/login"
+                            className="button is-dark"
+                            onClick={() => setShowDropdown(false)}
+                          >
+                            Login
                           </Link>
                         </div>
                         <div className="dropdown-item">
-                          <Link to="/register">
-                            <button
-                              className="button is-dark"
-                              onClick={() => setShowDropdown(false)}
-                            >
-                              Register
-                            </button>
+                          <Link
+                            to="/register"
+                            className="button is-dark"
+                            onClick={() => setShowDropdown(false)}
+                          >
+                            Register
                           </Link>
                         </div>
                       </>
