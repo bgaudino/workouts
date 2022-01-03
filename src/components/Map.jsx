@@ -25,7 +25,11 @@ export default function Map({ route }) {
       }}
       center={center}
       zoom={14}
+      zoomControl={false}
+      touchZoom={false}
       scrollWheelZoom={false}
+      doubleClickZoom={false}
+      dragging={false}
     >
       <Polyline pathOptions={limeOptions} positions={polyline} />
       <TileLayer
