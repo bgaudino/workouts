@@ -34,7 +34,7 @@ code {
   width: 100%;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
   .desktop-link {
     display: none !important;
   }

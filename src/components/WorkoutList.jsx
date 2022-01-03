@@ -44,7 +44,7 @@ export default function WorkoutList() {
         {!workouts.length && (
           <div className="has-text-centered">
             <p className="has-text-centered mt-5 mb-4">
-              No workout yet. Click "New Workout" to get started.
+              No workouts yet. Click "New Workout" to get started.
             </p>
             <button className="button is-primary" onClick={startWorkout}>
               New Workout
