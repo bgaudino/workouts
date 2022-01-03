@@ -5,6 +5,7 @@ import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../hooks/auth";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false);
@@ -12,6 +13,16 @@ export default function Nav() {
   const navigate = useNavigate();
   const auth = useAuth();
   const { user, isAuthenticated } = auth;
+  const navRef = useDetectClickOutside({
+    onTriggered: () => {
+      setShowMenu(false);
+    },
+  });
+  const dropdownRef = useDetectClickOutside({
+    onTriggered: () => {
+      setShowDropdown(false);
+    },
+  });
 
   async function startWorkout() {
     const res = await axiosInstance.post(workoutListUrl);
@@ -20,6 +31,7 @@ export default function Nav() {
 
   return (
     <nav
+      ref={navRef}
       className="navbar is-dark"
       role="navigation"
       aria-label="main navigation"
@@ -58,7 +70,7 @@ export default function Nav() {
               </div>
             </>
           )}
-          <div className="navbar-end desktop-link">
+          <div className="navbar-end desktop-link" ref={dropdownRef}>
             <div className="navbar-item">
               <div className={showDropdown ? "dropdown is-active" : "dropdown"}>
                 <div className="dropdown-trigger">
