@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { workoutListUrl } from "../utils/endPoints";
 import { axiosInstance } from "../utils/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../hooks/auth";
 
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
   const { user, isAuthenticated } = auth;
@@ -24,7 +25,7 @@ export default function Nav() {
       aria-label="main navigation"
     >
       <div className="container">
-        <div className="navbar-brand">
+        <div className="navbar-brand" style={{ width: "100%" }}>
           <div className="navbar-item">
             <p
               className="title is-4 has-text-white"
@@ -34,7 +35,7 @@ export default function Nav() {
               Workout Tracker
             </p>
           </div>
-          {isAuthenticated ? (
+          {isAuthenticated && (
             <>
               <div className="navbar-item">
                 <button
@@ -55,26 +56,69 @@ export default function Nav() {
                   <button className="button is-dark">Cardio</button>
                 </Link>
               </div>
-              <div className="navbar-item desktop-link">
-                <button className="button is-dark" onClick={auth.signOut}>
-                  Logout{user ? `, ${user.first_name || user.email}` : ""}
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="navbar-item desktop-link">
-                <Link to="/login">
-                  <button className="button is-dark">Login</button>
-                </Link>
-              </div>
-              <div className="navbar-item desktop-link">
-                <Link to="/register">
-                  <button className="button is-dark">Register</button>
-                </Link>
-              </div>
             </>
           )}
+          <div className="navbar-end desktop-link">
+            <div className="navbar-item">
+              <div className={showDropdown ? "dropdown is-active" : "dropdown"}>
+                <div className="dropdown-trigger">
+                  <button
+                    className="button is-dark"
+                    aria-haspopup="true"
+                    aria-controls="dropdown-menu"
+                    onClick={() => setShowDropdown((prevState) => !prevState)}
+                  >
+                    <FontAwesomeIcon icon={faUserCircle} />
+                    {isAuthenticated ? (
+                      <>&nbsp;{user.first_name || user.email}</>
+                    ) : (
+                      <>&nbsp;Guest</>
+                    )}
+                  </button>
+                </div>
+                <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div className="dropdown-content has-background-dark">
+                    {isAuthenticated ? (
+                      <div className="dropdown-item">
+                        <button
+                          className="button is-dark"
+                          onClick={() => {
+                            auth.signOut();
+                            setShowDropdown(false);
+                          }}
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="dropdown-item">
+                          <Link to="/login">
+                            <button
+                              className="button is-dark"
+                              onClick={() => setShowDropdown(false)}
+                            >
+                              Login
+                            </button>
+                          </Link>
+                        </div>
+                        <div className="dropdown-item">
+                          <Link to="/register">
+                            <button
+                              className="button is-dark"
+                              onClick={() => setShowDropdown(false)}
+                            >
+                              Register
+                            </button>
+                          </Link>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             role="button"
             className={

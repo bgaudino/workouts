@@ -9,7 +9,12 @@ import {
 } from "../utils/endPoints";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faPlus,
+  faStopwatch,
+  faWindowClose,
+} from "@fortawesome/free-solid-svg-icons";
 import RestTimer from "./RestTimer";
 
 export default function Workout() {
@@ -129,13 +134,15 @@ export default function Workout() {
                 className="button is-primary"
                 onClick={() => setShowForm(true)}
               >
-                Add New Exercise
+                <FontAwesomeIcon icon={faPlus} />
+                &nbsp;New Exercise
               </button>
               <button
                 className="button is-info ml-3"
                 onClick={() => setTimerOpen(true)}
               >
-                Start Timer
+                <FontAwesomeIcon icon={faStopwatch} />
+                &nbsp;Timer
               </button>
             </>
           )}

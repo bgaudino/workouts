@@ -24,6 +24,11 @@ export default function RestTimer({ open, onClose }) {
     setTimeRemaining(60);
   }
 
+  function handleClose() {
+    onClose();
+    if (timeRemaining === 0) resetTimer();
+  }
+
   function formatTimer(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -37,42 +42,59 @@ export default function RestTimer({ open, onClose }) {
 
   return (
     <div className={open ? "modal is-active" : "modal"}>
-      <div className="modal-background" onClick={onClose}></div>
+      <div className="modal-background" onClick={handleClose}></div>
       <div className="modal-card" style={{ maxWidth: 520 }}>
         <header className="modal-card-head">
           <p className="modal-card-title has-text-centered">Timer</p>
           <button
             className="delete"
             aria-label="close"
-            onClick={onClose}
+            onClick={handleClose}
           ></button>
         </header>
         <section className="modal-card-body">
-          <p
-            className="title is-1 has-text-centered"
-            style={{ fontFamily: "monospace" }}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            {formatTimer(timeRemaining)}
-          </p>
-          <div className="is-fullwidth is-justify-content-space-between">
-            <button
-              className="button is-link is-outlined"
-              onClick={() =>
-                setTimeRemaining((prevState) => {
-                  if (prevState > 30) return prevState - 30;
-                  else return 0;
-                })
-              }
-            >
-              - 30
-            </button>
-            <button
-              style={{ float: "right" }}
-              className="button is-link is-outlined"
-              onClick={() => setTimeRemaining((prevState) => prevState + 30)}
-            >
-              + 30
-            </button>
+            <span>
+              <button
+                className="button is-link is-outlined"
+                disabled={timeRemaining === 0}
+                onClick={() =>
+                  setTimeRemaining((prevState) => {
+                    if (prevState > 30) return prevState - 30;
+                    else return 0;
+                  })
+                }
+              >
+                - 30
+              </button>
+            </span>
+            <span>
+              <p
+                className="title is-1 has-text-centered"
+                style={{ fontFamily: "monospace" }}
+              >
+                {formatTimer(timeRemaining)}
+              </p>
+            </span>
+            <span>
+              <button
+                disabled={timeRemaining >= 60 * 60}
+                className="button is-link is-outlined is-pulled-right"
+                onClick={() => {
+                  if (timeRemaining < 60 * 59.5)
+                    setTimeRemaining((prevState) => prevState + 30);
+                  else setTimeRemaining(60 * 60);
+                }}
+              >
+                + 30
+              </button>
+            </span>
           </div>
         </section>
         <footer className="modal-card-foot is-justify-content-center">
@@ -96,7 +118,7 @@ export default function RestTimer({ open, onClose }) {
           <button className="button is-info" onClick={resetTimer}>
             Reset
           </button>
-          <button className="button is-danger" onClick={onClose}>
+          <button className="button is-danger" onClick={handleClose}>
             Close
           </button>
         </footer>
