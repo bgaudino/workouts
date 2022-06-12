@@ -50,6 +50,10 @@ export default function Nav() {
           {isAuthenticated && (
             <>
               <div className="navbar-item desktop-link">
+                <Link className="has-text-white" to="/">
+                  Workouts
+                </Link>
+                &nbsp;
                 <a
                   href="#workout"
                   role="button"
@@ -57,13 +61,7 @@ export default function Nav() {
                   className="has-text-white"
                 >
                   <FontAwesomeIcon icon={faPlusCircle} />
-                  &nbsp;Workout
                 </a>
-              </div>
-              <div className="navbar-item desktop-link">
-                <Link className="has-text-white" to="/">
-                  History
-                </Link>
               </div>
               <div className="navbar-item desktop-link">
                 <Link className="has-text-white" to="/cardio">
@@ -164,26 +162,22 @@ export default function Nav() {
           <div className="navbar-start">
             {isAuthenticated ? (
               <>
-                <div className="navbar-item">
-                  <Link
-                    className="button is-dark"
-                    to={window.location.href}
-                    onClick={() => {
-                      startWorkout();
-                      setShowMenu(false);
-                    }}
-                  >
-                    New Workout
-                  </Link>
-                </div>
-                <div className="navbar-item">
+                <div className="navbar-item is-flex is-align-items-center">
                   <Link
                     className="button is-dark"
                     to="/"
                     onClick={() => setShowMenu(false)}
                   >
-                    History
+                    Workouts
                   </Link>
+                  <a
+                    href="#workout"
+                    role="button"
+                    onClick={startWorkout}
+                    className="has-text-white"
+                  >
+                    <FontAwesomeIcon icon={faPlusCircle} />
+                  </a>
                 </div>
                 <div className="navbar-item">
                   <Link
