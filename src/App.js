@@ -4,6 +4,7 @@ import { useState, useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WorkoutList from "./components/WorkoutList";
 import Workout from "./components/Workout";
+import Diet from "./components/Diet";
 import Nav from "./components/Nav";
 import StravaAuth from "./components/StravaAuth";
 import CardioList from "./components/CardioList";
@@ -60,6 +61,14 @@ function App() {
             element={
               <AuthGuard>
                 <CardioList />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/diet"
+            element={
+              <AuthGuard>
+                <Diet />
               </AuthGuard>
             }
           />

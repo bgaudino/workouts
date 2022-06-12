@@ -51,7 +51,6 @@ export default function Nav() {
             <>
               <div className="navbar-item desktop-link">
                 <a
-                  href
                   role="button"
                   onClick={startWorkout}
                   className="has-text-white"
@@ -70,6 +69,11 @@ export default function Nav() {
                   Cardio
                 </Link>
               </div>
+              <div className="navbar-item desktop-link">
+                <Link className="has-text-white" to="/diet">
+                  Diet
+                </Link>
+              </div>
             </>
           )}
           <div className="navbar-end desktop-link" ref={dropdownRef}>
@@ -77,7 +81,6 @@ export default function Nav() {
               <div className={showDropdown ? "dropdown is-active" : "dropdown"}>
                 <div className="dropdown-trigger">
                   <a
-                    href
                     className="has-text-white"
                     aria-controls="dropdown-menu"
                     onClick={() => setShowDropdown((prevState) => !prevState)}
@@ -95,7 +98,6 @@ export default function Nav() {
                     {isAuthenticated ? (
                       <div className="dropdown-item">
                         <button
-                          href
                           className="button is-dark"
                           onClick={() => {
                             auth.signOut();
@@ -188,6 +190,15 @@ export default function Nav() {
                     onClick={() => setShowMenu(false)}
                   >
                     Cardio
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/diet"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Diet
                   </Link>
                 </div>
                 <div className="navbar-item">
