@@ -51,7 +51,7 @@ export default function Nav() {
             <>
               <div className="navbar-item desktop-link">
                 <a
-                  href="#"
+                  href="#workout"
                   role="button"
                   onClick={startWorkout}
                   className="has-text-white"
@@ -82,7 +82,7 @@ export default function Nav() {
               <div className={showDropdown ? "dropdown is-active" : "dropdown"}>
                 <div className="dropdown-trigger">
                   <a
-                    href="#"
+                    href="#dropdown-menu"
                     className="has-text-white"
                     aria-controls="dropdown-menu"
                     onClick={() => setShowDropdown((prevState) => !prevState)}
