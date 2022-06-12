@@ -4,11 +4,17 @@ import { useState, useEffect } from "react";
 import { cardioListUrl } from "../utils/endPoints";
 import { axiosInstance } from "../utils/axios";
 import CardioSession from "./CardioSession";
+import {
+  formatDistance,
+  formatDuration,
+  getAveragePace,
+} from "../utils/formatCardio";
 
 export default function CardioList() {
   const [loading, setLoading] = useState(true);
   const [workouts, setWorkouts] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [weeklyStats, setWeeklyStats] = useState({});
   const [count, setCount] = useState(0);
   const pageNumbers = count > 0 ? Math.ceil(count / 10) : 0;
   let pages = [];
@@ -41,6 +47,7 @@ export default function CardioList() {
         setWorkouts(() => res.data.cardio_sessions);
         setAccounts(() => res.data.strava_accounts);
         setCount(() => res.data.count);
+        setWeeklyStats(() => res.data.weekly_stats);
         setLoading(() => false);
       })
       .catch((err) => {
@@ -99,6 +106,25 @@ export default function CardioList() {
                 alt="Connect with Strava"
               />
             </a>
+          </div>
+        </div>
+        <div className="box m-5">
+          <h3 className="is-size-5 mb-3">Weekly Stats</h3>
+          <div>
+            <strong>Runs: </strong>
+            {weeklyStats.runs}
+          </div>
+          <div>
+            <strong>Distance: </strong>
+            {formatDistance(weeklyStats.distance)} miles
+          </div>
+          <div>
+            <strong>Duration: </strong>
+            {formatDuration(weeklyStats.duration)}
+          </div>
+          <div>
+            <strong>Avg Pace: </strong>
+            {getAveragePace(weeklyStats.distance, weeklyStats.duration)}
           </div>
         </div>
         {count > 0 && (
