@@ -7,7 +7,6 @@ const initialFormData = {
   calories: "",
   fat: "",
   protein: "",
-  fat: "",
   carbs: "",
 };
 
