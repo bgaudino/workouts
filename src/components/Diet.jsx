@@ -13,18 +13,23 @@ const initialFormData = {
 export default function Diet() {
   const [consumedFood, setConsumedFood] = useState([]);
   const [nutrition, setNutrition] = useState({});
+  const [weeklyNutrition, setWeeklyNutrition] = useState([]);
   const [foodOptions, setFoodOptions] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
+
   const [consumedFoodAdds, setConsumedFoodAdds] = useState(0);
   const [foodAdds, setFoodAdds] = useState(0);
+
   const [foodValue, setFoodValue] = useState(0);
   const [servings, setServings] = useState(1);
+
   const [date, setDate] = useState(formatDate());
 
   useEffect(() => {
     axiosInstance.get(`diet/${date}/`).then((res) => {
       setConsumedFood(res.data.food);
       setNutrition(res.data.nutrition);
+      setWeeklyNutrition(res.data.weekly_nutrition);
     });
   }, [consumedFoodAdds, date]);
 
@@ -76,6 +81,10 @@ export default function Diet() {
       console.log(res);
       setConsumedFoodAdds((prev) => prev + 1);
     });
+  }
+
+  function getDate(date, delta) {
+    return formatDate(date.setDate(date.getDate() - delta));
   }
 
   return (
@@ -181,6 +190,31 @@ export default function Diet() {
             </tbody>
           </table>
           {consumedFood.length === 0 && <p>No food recorded yet.</p>}
+        </div>
+        <div className="box m-5">
+          <h3 className="is-size-5 mb-3">My Week</h3>
+          <table className="table is-hoverable is-fullwidth mt-3">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Calories</th>
+                <th>Fat</th>
+                <th>Protein</th>
+                <th>Carbs</th>
+              </tr>
+            </thead>
+            <tbody>
+              {weeklyNutrition.map((day, i) => (
+                <tr key={i}>
+                  <td>{getDate(new Date(), i)}</td>
+                  <td>{day.calories | 0}</td>
+                  <td>{day.fat | 0}g</td>
+                  <td>{day.protein | 0}g</td>
+                  <td>{day.carbs | 0}g</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className="box m-5">
           <h3 className="is-size-5 mb-3">Add New Food Option</h3>
