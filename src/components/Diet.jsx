@@ -18,6 +18,7 @@ export default function Diet() {
   const [consumedFoodAdds, setConsumedFoodAdds] = useState(0);
   const [foodAdds, setFoodAdds] = useState(0);
   const [foodValue, setFoodValue] = useState(0);
+  const [servings, setServings] = useState(1);
   const [date, setDate] = useState(formatDate());
 
   useEffect(() => {
@@ -68,7 +69,8 @@ export default function Diet() {
     e.preventDefault();
     const data = {
       food: foodValue,
-      date: date,
+      date,
+      servings,
     };
     axiosInstance.post("diet/create/", data).then((res) => {
       console.log(res);
@@ -116,7 +118,7 @@ export default function Diet() {
         </div>
         <div className="box m-5">
           <form onSubmit={record}>
-            <h3 className="is-size-5 mb-3">Record</h3>
+            <h3 className="is-size-5 mb-3">Track Food</h3>
             <Select
               options={foodOptions}
               onChange={(newValue, action) => {
@@ -124,6 +126,19 @@ export default function Diet() {
               }}
               className="mb-3"
             />
+            <div className="field">
+              <label className="label">Servings</label>
+              <div className="control">
+                <input
+                  name="name"
+                  className="input"
+                  value={servings}
+                  type="number"
+                  inputMode="numeric"
+                  onChange={(e) => setServings(e.target.value)}
+                />
+              </div>
+            </div>
             <button
               type="submit"
               className="button is-primary"
@@ -132,13 +147,11 @@ export default function Diet() {
               Record
             </button>
           </form>
-        </div>
-        <div class="box m-5">
-          <h3 className="is-size-5 mb-3">Recorded Food</h3>
-          <table className="table is-hoverable is-fullwidth">
+          <table className="table is-hoverable is-fullwidth mt-3">
             <thead>
               <tr>
                 <th>Food</th>
+                <th>Servings</th>
                 <th>Calories</th>
                 <th>Fat</th>
                 <th>Protein</th>
@@ -150,10 +163,11 @@ export default function Diet() {
               {consumedFood.map((food) => (
                 <tr key={food.id}>
                   <td>{food.name}</td>
-                  <td>{food.calories}</td>
-                  <td>{food.fat}g</td>
-                  <td>{food.protein}g</td>
-                  <td>{food.carbs}g</td>
+                  <td>{food.servings}</td>
+                  <td>{food.total_calories}</td>
+                  <td>{food.total_fat}g</td>
+                  <td>{food.total_protein}g</td>
+                  <td>{food.total_carbs}g</td>
                   <td>
                     <button
                       className="button is-danger"
