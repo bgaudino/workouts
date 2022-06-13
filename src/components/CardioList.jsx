@@ -15,6 +15,9 @@ export default function CardioList() {
   const [workouts, setWorkouts] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [weeklyStats, setWeeklyStats] = useState({});
+  const [monthlyStats, setMonthlyStats] = useState({});
+  const [yearlyStats, setYearlyStats] = useState({});
+  const [displayedStats, setDisplayedStats] = useState({});
   const [count, setCount] = useState(0);
   const pageNumbers = count > 0 ? Math.ceil(count / 10) : 0;
   let pages = [];
@@ -48,6 +51,9 @@ export default function CardioList() {
         setAccounts(() => res.data.strava_accounts);
         setCount(() => res.data.count);
         setWeeklyStats(() => res.data.weekly_stats);
+        setDisplayedStats(() => res.data.weekly_stats);
+        setMonthlyStats(() => res.data.monthly_stats);
+        setYearlyStats(() => res.data.yearly_stats);
         setLoading(() => false);
       })
       .catch((err) => {
@@ -109,22 +115,62 @@ export default function CardioList() {
           </div>
         </div>
         <div className="box m-5">
-          <h3 className="is-size-5 mb-3">Weekly Stats</h3>
-          <div>
+          <h3
+            className="is-size-5 mb-3"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            Stats
+          </h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "1rem",
+            }}
+          >
+            <button
+              className={
+                displayedStats === weeklyStats ? "button is-info" : "button"
+              }
+              onClick={() => setDisplayedStats(weeklyStats)}
+            >
+              Week
+            </button>
+            <button
+              className={
+                displayedStats === monthlyStats ? "button is-info" : "button"
+              }
+              onClick={() => setDisplayedStats(monthlyStats)}
+            >
+              Month
+            </button>
+            <button
+              className={
+                displayedStats === yearlyStats ? "button is-info" : "button"
+              }
+              onClick={() => setDisplayedStats(yearlyStats)}
+            >
+              Year
+            </button>
+          </div>
+
+          <div className="mt-3">
             <strong>Runs: </strong>
-            {weeklyStats.runs}
+            {displayedStats.runs}
           </div>
           <div>
             <strong>Distance: </strong>
-            {formatDistance(weeklyStats.distance)} miles
+            {formatDistance(displayedStats.distance)} miles
           </div>
           <div>
             <strong>Duration: </strong>
-            {formatDuration(weeklyStats.duration)}
+            {formatDuration(displayedStats.duration)}
           </div>
           <div>
             <strong>Avg Pace: </strong>
-            {getAveragePace(weeklyStats.distance, weeklyStats.duration)}
+            {getAveragePace(displayedStats.distance, displayedStats.duration)}
           </div>
         </div>
         {count > 0 && (
