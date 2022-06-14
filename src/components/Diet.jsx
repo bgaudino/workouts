@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { axiosInstance } from "../utils/axios";
-import Select from "react-select";
+import React, {useState, useEffect} from 'react';
+import {axiosInstance} from '../utils/axios';
+import Select from 'react-select';
 
 const initialFormData = {
-  name: "",
-  calories: "",
-  fat: "",
-  protein: "",
-  carbs: "",
+  name: '',
+  calories: '',
+  fat: '',
+  protein: '',
+  carbs: '',
 };
 
 export default function Diet() {
@@ -34,18 +34,18 @@ export default function Diet() {
   }, [consumedFoodAdds, date]);
 
   useEffect(() => {
-    axiosInstance.get("diet/food/").then((res) => {
-      setFoodOptions(res.data.map((f) => ({ value: f.id, label: f.name })));
+    axiosInstance.get('diet/food/').then((res) => {
+      setFoodOptions(res.data.map((f) => ({value: f.id, label: f.name})));
     });
   }, [foodAdds]);
 
   function updateFormData(e) {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
   }
 
   function onSubmit(e) {
     e.preventDefault();
-    axiosInstance.post("diet/food/", formData).then((res) => {
+    axiosInstance.post('diet/food/', formData).then((res) => {
       setFormData(initialFormData);
       setFoodAdds((prev) => prev + 1);
     });
@@ -77,14 +77,10 @@ export default function Diet() {
       date,
       servings,
     };
-    axiosInstance.post("diet/create/", data).then((res) => {
+    axiosInstance.post('diet/create/', data).then((res) => {
       console.log(res);
       setConsumedFoodAdds((prev) => prev + 1);
     });
-  }
-
-  function getDate(date, delta) {
-    return formatDate(date.setDate(date.getDate() - delta));
   }
 
   return (
@@ -206,7 +202,7 @@ export default function Diet() {
             <tbody>
               {weeklyNutrition.map((day, i) => (
                 <tr key={i}>
-                  <td>{getDate(new Date(), i)}</td>
+                  <td>{day.day}</td>
                   <td>{day.calories | 0}</td>
                   <td>{day.fat | 0}g</td>
                   <td>{day.protein | 0}g</td>
