@@ -40,7 +40,7 @@ export default function Weight() {
     <>
       <section className="hero is-small is-primary">
         <div className="hero-body">
-          <p className="title has-text-centered">Diet</p>
+          <p className="title has-text-centered">Weight</p>
         </div>
       </section>
       <div className="container is-max-desktop">
