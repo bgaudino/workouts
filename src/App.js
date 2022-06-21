@@ -1,23 +1,24 @@
-import "bulma/css/bulma.min.css";
-import "./App.css";
-import { useState, useLayoutEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import WorkoutList from "./components/WorkoutList";
-import Workout from "./components/Workout";
-import Diet from "./components/Diet";
-import Nav from "./components/Nav";
-import StravaAuth from "./components/StravaAuth";
-import CardioList from "./components/CardioList";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Loading from "./components/Loading";
-import AuthGuard from "./guards/AuthGuard";
-import { useAuth } from "./hooks/auth";
-import Map from "./components/Map";
+import 'bulma/css/bulma.min.css';
+import './App.css';
+import {useState, useLayoutEffect} from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import WorkoutList from './components/WorkoutList';
+import Workout from './components/Workout';
+import Diet from './components/Diet';
+import Weight from './components/Weight';
+import Nav from './components/Nav';
+import StravaAuth from './components/StravaAuth';
+import CardioList from './components/CardioList';
+import Login from './components/Login';
+import Register from './components/Register';
+import Loading from './components/Loading';
+import AuthGuard from './guards/AuthGuard';
+import {useAuth} from './hooks/auth';
+import Map from './components/Map';
 
 function App() {
   const auth = useAuth();
-  const { signIn } = auth;
+  const {signIn} = auth;
   const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
@@ -69,6 +70,14 @@ function App() {
             element={
               <AuthGuard>
                 <Diet />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/weight"
+            element={
+              <AuthGuard>
+                <Weight />
               </AuthGuard>
             }
           />

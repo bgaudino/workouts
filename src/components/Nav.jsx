@@ -73,6 +73,11 @@ export default function Nav() {
                   Diet
                 </Link>
               </div>
+              <div className="navbar-item desktop-link">
+                <Link className="has-text-white" to="/weight">
+                  Weight
+                </Link>
+              </div>
             </>
           )}
           <div className="navbar-end desktop-link" ref={dropdownRef}>
@@ -195,6 +200,15 @@ export default function Nav() {
                     onClick={() => setShowMenu(false)}
                   >
                     Diet
+                  </Link>
+                </div>
+                <div className="navbar-item">
+                  <Link
+                    className="button is-dark"
+                    to="/weight"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Weight
                   </Link>
                 </div>
                 <div className="navbar-item">

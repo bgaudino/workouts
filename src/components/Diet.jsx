@@ -26,6 +26,10 @@ export default function Diet() {
   const [date, setDate] = useState(formatDate());
 
   useEffect(() => {
+    console.log(window.location.search);
+  }, []);
+
+  useEffect(() => {
     axiosInstance.get(`diet/${date}/`).then((res) => {
       setConsumedFood(res.data.food);
       setNutrition(res.data.nutrition);
